@@ -15,6 +15,10 @@ const userSchema = new Schema(
       trim: true,
       match: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/gm,
     },
+    confirmEmail: {
+      type: Boolean,
+      default: false
+    },
     profilePic: {
       type: String,
       default: "https://freesvg.org/img/abstract-user-flat-1.png"

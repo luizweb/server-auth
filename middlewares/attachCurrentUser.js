@@ -7,7 +7,12 @@ async function attachCurrentUser(req, res, next) {
     const user = await userModel.findById(userData._id, { passwordHash: 0 });
 
     if (!user) {
-      return res.status(400).json({ msg: "Usuário não encontrado" });
+      return res.status(401).json({ msg: "Usuário não encontrado" });
+    }
+
+    //checar se o usuário tem o emnail confirmado
+    if (user.confirmEmail === false) {
+      return res.status(401).json({ msg: "Usuário não confirmado. Por favor validar email" });
     }
 
     req.currentUser = user;
