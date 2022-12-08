@@ -6,11 +6,9 @@ import uploadRoute from "./routes/uploadImage.routes.js";
 import cors from 'cors';
 
 dotenv.config();
-
 const app = express();
-
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: process.env.REACT_APP_URL}));
 connect();
 
 app.use("/user", userRoute);
