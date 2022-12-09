@@ -2,8 +2,9 @@ import { Schema, model } from "mongoose";
 
 const logSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "User" },
-  date: { type: Date, default: Date.now },
-  status: { type: String },
+  route: { type: String },
+  log: { type: String },
+  date: { type: Date, default: Date.now }
 });
 
 const LogModel = model("Log", logSchema);

@@ -85,10 +85,6 @@ userRoute.get("/activate-account/:idUser", async (req,res)=> {
 userRoute.post("/login", async (req, res) => {
   try {
 
-    
-
-
-    
     const { email, password } = req.body;
 
     const user = await userModel.findOne({ email: email });
@@ -108,10 +104,11 @@ userRoute.post("/login", async (req, res) => {
       const token = generateToken(user);
 
 
-      //LOG
+      //LOG - Novo login
       await LogModel.create({
         user: user._id,
-        status: "novo login",
+        route: "LOGIN",
+        log: "Novo login"
       });
 
 
@@ -137,6 +134,22 @@ userRoute.get("/profile", isAuth, attachCurrentUser, async (req, res) => {
     return res.status(500).json(error.errors);
   }
 });
+
+
+//UPDATE
+userRoute.put("/update", isAuth, attachCurrentUser, async (req, res) => {
+  try {
+    console.log(req.currentUser)
+    const updatedUser = await userModel.findByIdAndUpdate(req.currentUser._id, {...req.body}, { new: true, runValidators: true });
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error.errors);
+  }
+});
+
+
+
 
 // ADMIN - check if user is admin - get all users
 userRoute.get("/admin", isAuth, isAdmin, attachCurrentUser, async (req, res) => {
